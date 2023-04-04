@@ -1,0 +1,10 @@
+**/bin/
+bin-int/
+
+.vs/
+.idea/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+**.csproj
