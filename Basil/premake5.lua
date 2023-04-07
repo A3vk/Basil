@@ -13,26 +13,27 @@ project "Basil"
 	}
 
 	includedirs {
-		"src"
+		"src",
+		"%{IncludeDir.spdlog}",
 	}
 
-    filter "system:windows"
-      systemversion "latest"
-      defines { "BA_PLATFORM_WINDOWS" }
+	filter "system:windows"
+		systemversion "latest"
+		defines { "BASIL_PLATFORM_WINDOWS" }
 
 	filter "configurations:Debug"
-		defines { "BA_DEBUG" }
+		defines { "BASIL_DEBUG" }
 		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
-		defines { "BA_RELEASE" }
+		defines { "BASIL_RELEASE" }
 		runtime "Release"
 		optimize "On"
 		symbols "On"
 
 	filter "configurations:Dist"
-		defines { "BA_DIST" }
+		defines { "BASIL_DIST" }
 		runtime "Release"
 		optimize "On"
 		symbols "Off"

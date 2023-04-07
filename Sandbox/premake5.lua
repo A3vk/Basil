@@ -13,7 +13,8 @@ project "Sandbox"
 	}
 
 	includedirs {
-		"%{wks.location}/Basil/src"
+		"%{wks.location}/Basil/src",
+		"%{wks.location}/Basil/vendor/spdlog/include"
 	}
 
 	links {
@@ -24,19 +25,19 @@ project "Sandbox"
       systemversion "latest"
 
 	filter "configurations:Debug"
-		defines { "BA_DEBUG" }
+		defines { "BASIL_DEBUG" }
 		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
-		defines { "BA_RELEASE" }
+		defines { "BASIL_RELEASE" }
 		runtime "Release"
 		optimize "On"
 		symbols "On"
 
 	filter "configurations:Dist"
 		kind "WindowedApp"
-		defines { "BA_DIST" }
+		defines { "BASIL_DIST" }
 		runtime "Release"
 		optimize "On"
 		symbols "Off"

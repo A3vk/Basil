@@ -1,34 +1,64 @@
 ﻿#pragma once
+#include <memory>
 
-/*
- * Static Properties:
- * developerConsoleVisible:	Reports whether the development console is visible. The development console automatically appears when an error has been logged. For example:
- * isDebugBuild:	In the Build Settings dialog there is a check box called "Development Build".
- * unityLogger:	Get default debug logger.
- *
- * Static Methods
- * Assert:	Assert a condition and logs an error message to the Unity console on failure.
- * AssertFormat:	Assert a condition and logs a formatted error message to the Unity console on failure.
- * Break:	Pauses the editor.
- * ClearDeveloperConsole:	Clears errors from the developer console.
- * DrawLine:	Draws a line between specified start and end points.
- * DrawRay:	Draws a line from start to start + dir in world coordinates.
- * ExtractStackTraceNoAlloc:	Populate an unmanaged buffer with the current managed call stack as a sequence of UTF-8 bytes, without allocating GC memory. Returns the number of bytes written into the buffer.
- * Log:	Logs a message to the Unity Console.
- * LogAssertion:	A variant of Debug.Log that logs an assertion message to the console.
- * LogAssertionFormat:	Logs a formatted assertion message to the Unity console.
- * LogError:	A variant of Debug.Log that logs an error message to the console.
- * LogErrorFormat:	Logs a formatted error message to the Unity console.
- * LogException:	A variant of Debug.Log that logs an error message from an exception to the console.
- * LogFormat:	Logs a formatted message to the Unity Console.
- * LogWarning:	A variant of Debug.Log that logs a warning message to the console.
- * LogWarningFormat:	Logs a formatted warning message to the Unity Console.
- * RetrieveStartupLogs:	Returns any captured startup logs
- */
+#pragma warning(push, 0)
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
+#pragma warning(pop)
+
 class Debug
 {
 public:
     static void Init();
 
+    static bool IsDebugBuild();
+    static bool IsReleaseBuild();
     
+    template<class... Args>
+    static void LogTrace(const std::string& message, const Args&... args)
+    {
+        s_Logger->info(message, args...);
+    }
+
+    template<class... Args>
+    static void LogDebug(const std::string& message, const Args&... args)
+    {
+        s_Logger->debug(message, args...);
+    }
+
+    template<class... Args>
+    static void LogInfo(const std::string& message, const Args&... args)
+    {
+        s_Logger->info(message, args...);
+    }
+
+    template<class... Args>
+    static void LogWarn(const std::string& message, const Args&... args)
+    {
+        s_Logger->warn(message, args...);
+    }
+
+    template<class... Args>
+    static void LogError(const std::string& message, const Args&... args)
+    {
+        s_Logger->error(message, args...);
+    }
+
+    template<class... Args>
+    static void LogCritical(const std::string& message, const Args&... args)
+    {
+        s_Logger->critical(message, args...);
+    }
+
+    template<class... Args>
+    static void Assert(const bool x, const std::string& message, const Args&... args)
+    {
+        if (!x)
+            Debug::LogCritical(message, args...);
+    }
+    
+    static void Break();
+
+private:
+    static std::shared_ptr<spdlog::logger> s_Logger;
 };

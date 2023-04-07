@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+
 #include "Basil/Core/Application.hpp"
 
 extern Basil::Application* Basil::CreateApplication(ApplicationCommandLineArgs args);
