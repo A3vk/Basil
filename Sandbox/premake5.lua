@@ -8,12 +8,14 @@ project "Sandbox"
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files {
+		"src/**.h",
 		"src/**.hpp",
 		"src/**.cpp"
 	}
 
 	includedirs {
 		"%{wks.location}/Basil/src",
+		"%{wks.location}/Basil/vendor",
 		"%{wks.location}/Basil/vendor/spdlog/include"
 	}
 

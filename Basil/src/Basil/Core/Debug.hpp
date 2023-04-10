@@ -1,64 +1,71 @@
 ﻿#pragma once
-#include <memory>
+
+#include "Basil/Core/Base.hpp"
 
 #pragma warning(push, 0)
 #include <spdlog/spdlog.h>
-#include <spdlog/fmt/ostr.h>
 #pragma warning(pop)
 
-class Debug
+namespace Basil
 {
-public:
-    static void Init();
+    class Debug
+    {
+    public:
+        static void Init();
+        static void ShutDown();
 
-    static bool IsDebugBuild();
-    static bool IsReleaseBuild();
+        static bool IsDebugBuild();
+        static bool IsReleaseBuild();
     
-    template<class... Args>
-    static void LogTrace(const std::string& message, const Args&... args)
-    {
-        s_Logger->info(message, args...);
-    }
+        template<typename ... Args>
+        static void LogTrace(const std::string& message, Args&& ... args)
+        {
+            s_Logger->info(message, std::forward<Args>(args)...);
+        }
 
-    template<class... Args>
-    static void LogDebug(const std::string& message, const Args&... args)
-    {
-        s_Logger->debug(message, args...);
-    }
+        template<typename ... Args>
+        static void LogDebug(const std::string& message, Args&& ... args)
+        {
+            s_Logger->debug(message, std::forward<Args>(args)...);
+        }
 
-    template<class... Args>
-    static void LogInfo(const std::string& message, const Args&... args)
-    {
-        s_Logger->info(message, args...);
-    }
+        template<typename ... Args>
+        static void LogInfo(const std::string& message, Args&& ... args)
+        {
+            s_Logger->info(message, std::forward<Args>(args)...);
+        }
 
-    template<class... Args>
-    static void LogWarn(const std::string& message, const Args&... args)
-    {
-        s_Logger->warn(message, args...);
-    }
+        template<typename ... Args>
+        static void LogWarn(const std::string& message, Args&& ... args)
+        {
+            s_Logger->warn(message, std::forward<Args>(args)...);
+        }
 
-    template<class... Args>
-    static void LogError(const std::string& message, const Args&... args)
-    {
-        s_Logger->error(message, args...);
-    }
+        template<typename ... Args>
+        static void LogError(const std::string& message, Args&& ... args)
+        {
+            s_Logger->error(message, std::forward<Args>(args)...);
+        }
 
-    template<class... Args>
-    static void LogCritical(const std::string& message, const Args&... args)
-    {
-        s_Logger->critical(message, args...);
-    }
+        template<class... Args>
+        static void LogCritical(const std::string& message, Args&& ... args)
+        {
+            s_Logger->critical(message, std::forward<Args>(args)...);
+        }
 
-    template<class... Args>
-    static void Assert(const bool x, const std::string& message, const Args&... args)
-    {
-        if (!x)
-            Debug::LogCritical(message, args...);
-    }
+        template<class... Args>
+        static void Assert(const bool x, const std::string& message, Args&& ... args)
+        {
+            if (!x)
+            {
+                Debug::LogCritical(message, std::forward<Args>(args)...);
+                Debug::Break();
+            }
+        }
     
-    static void Break();
+        static void Break();
 
-private:
-    static std::shared_ptr<spdlog::logger> s_Logger;
-};
+    private:
+        static Ref<spdlog::logger> s_Logger;
+    };
+}

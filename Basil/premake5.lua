@@ -7,19 +7,34 @@ project "Basil"
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "hzpch.h"
+	pchsource "src/hzpch.cpp"
+
 	files {
+		"src/**.h",
 		"src/**.hpp",
 		"src/**.cpp"
+	}
+
+	defines {
+		"GLFW_INCLUDE_NONE"
 	}
 
 	includedirs {
 		"src",
 		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
+	}
+
+	links {
+		"GLFW",
+		"Glad",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
 		systemversion "latest"
-		defines { "BASIL_PLATFORM_WINDOWS" }
 
 	filter "configurations:Debug"
 		defines { "BASIL_DEBUG" }

@@ -7,6 +7,11 @@ public:
     Sandbox(const Basil::ApplicationSpecification& specification) : Application(specification) {
         
     }
+
+    ~Sandbox()
+    {
+        
+    }
 };
 
 Basil::Application* Basil::CreateApplication(ApplicationCommandLineArgs args)

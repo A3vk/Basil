@@ -1,7 +1,6 @@
 ﻿#pragma once
-#include <string>
 
-// int main(int argc, char** argv);
+#include "Basil/Core/Window.hpp"
 
 namespace Basil
 {
@@ -22,9 +21,11 @@ namespace Basil
     {
     public:
         Application(const ApplicationSpecification& specification);
-        // virtual ~Application();
+        virtual ~Application();
         
         void Run();
+    private:
+        std::unique_ptr<Window> m_Window;
     };
 
     Application* CreateApplication(ApplicationCommandLineArgs args);
